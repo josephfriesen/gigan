@@ -16,22 +16,21 @@ jobs:
           name: Update NPM
           command: "sudo npm install -g npm"
       - restore_cache:
-          key: dependency-cache-{{ checksum: "package-lock.json" }}
-      - run: 
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
           name: Install Dependencies
           command: npm ci
       - save_cache:
-          key: dependency-cache-{{ checksum: "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: 
+      - run:
           name: Build app
           command: npm run build
       - save_cache:
           key: app-build-cache-{{ .Branch }}
           paths:
             - ./build
-        
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
