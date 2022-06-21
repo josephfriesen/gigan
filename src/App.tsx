@@ -4,10 +4,10 @@ import useESBuild from "./hooks/useESBuild";
 function App() {
   const [input, setInput] = useState("");
 
-  const { code, bundleCode } = useESBuild(input);
+  const { code, bundleCode } = useESBuild();
 
   const onClick = () => {
-    bundleCode();
+    bundleCode(input);
   };
 
   return (
