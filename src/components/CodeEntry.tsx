@@ -4,7 +4,40 @@ import CodeEditor from "./CodeEditor";
 import CodeExecution from "./CodeExecution";
 import Resizable from "./Resizable";
 
-const DEFAULT_INPUT = "";
+const DEFAULT_INPUT = `
+import React, { useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
+import "animate.css/animate.min.css";
+
+const App = () => {
+  console.log("i am a log coming from inside my executed code");
+  const ref = useRef();
+
+  useEffect(() => {
+    setTimeout(() => {
+      const h4 = document.createElement("h4");
+      h4.innerHTML = "i am the rendered react component holy crap!!";
+      h4.style.color = "hotpink";
+      h4.classList.add("animate__animated");
+      h4.classList.add("animate__bounceInUp");
+      ref.current.appendChild(h4);
+    }, 500);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        width: "100%",
+        height: "500px",
+        overflow: "hidden",
+      }}
+    ></div>
+  );
+};
+
+ReactDOM.render(<App />, document.querySelector("#root"));
+`;
 
 const CodeEntry = () => {
   const [input, setInput] = useState(DEFAULT_INPUT);

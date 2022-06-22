@@ -36,9 +36,11 @@ export const fetchPlugin = (input: string) => {
           .replace(/"/g, '\\"')
           .replace(/'/g, "\\'");
         const contents = `
+          const css = "${escaped}";
           const style = document.createElement("style");
-          style.innerText = '${escaped}';
           document.head.appendChild(style);
+          style.type = "text/css";
+          style.appendChild(document.createTextNode(css));
         `;
 
         const result: esbuild.OnLoadResult = {
