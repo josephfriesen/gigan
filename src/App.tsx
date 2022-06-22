@@ -1,40 +1,104 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 import useESBuild from "./hooks/useESBuild";
+import CodeEditor from "./components/CodeEditor";
+
+const DEFAULT_INPUT = "";
 
 function App() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(DEFAULT_INPUT);
+  const iframeRef = useRef<any>();
 
-  const { code, bundleCode } = useESBuild();
+  const { code, bundleCode } = useESBuild(iframeRef);
 
-  const onClick = () => {
+  const handleSubmit = () => {
+    iframeRef.current.srcDoc = html;
     bundleCode(input);
   };
 
+  const handleResetInput = () => {
+    setInput(DEFAULT_INPUT);
+    bundleCode(DEFAULT_INPUT);
+  };
+
+  const html = `
+      <html>
+        <head></head>
+        <body>
+          <pre>Your code will execute here. . .</pre>
+          <div id="root"></div>
+          <script>
+            window.addEventListener("message", (event) => {
+              try {
+                eval(event.data);
+              } catch (err) {
+                console.error(err);
+                const root = document.querySelector("#root");
+                root.innerHTML = '<div style="color: red;"><h4>Runtime error</h4>' + err + '</div>'
+              }
+            }, false);
+          </script>
+        </body>
+      </html>
+      `;
+
   return (
-    <div className="min-h-screen">
-      <div
-        className="
+    <>
+      <div>
+        <div
+          className="
                     m-4 h-full rounded-lg 
                     bg-slate-700 p-8 shadow-xl ring-1 
                     ring-slate-900/5
                   "
-      >
-        <h1 className="text-3xl font-bold text-rose-300 underline">what up!</h1>
-        <div>
-          <textarea
-            className="m-8 w-1/3 min-w-fit resize p-4"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+        >
+          <h1 className="text-3xl font-bold text-rose-300">Gigan</h1>
+          <h4 className="text-xl text-rose-300">
+            Write, transpile, bundle and execute jsx? Holy crap!
+          </h4>
           <div>
-            <button className="text-rose-300" onClick={onClick}>
-              Submit
-            </button>
+            <CodeEditor
+              initialValue={input}
+              onChange={(value) => setInput(value)}
+            />
+            <div className="p-4">
+              <button
+                className="
+                font-semi-bold mr-8 rounded-sm border-2 border-transparent px-4 py-2 text-rose-300
+                transition-colors duration-200 hover:border-rose-400"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+              <button
+                className="
+                font-semi-bold rounded-sm border-2 border-transparent px-4 py-2 text-rose-300
+                transition-colors duration-200 hover:border-rose-400"
+                onClick={handleResetInput}
+              >
+                Reset
+              </button>
+            </div>
+            <div className="mt-8 text-rose-300">
+              <div>{code && "Transpiled code bundle"}</div>
+              <div className="mt-4 mb-8 max-h-96 overflow-y-auto">
+                <pre className="m-8 whitespace-pre-wrap text-rose-100">
+                  {code}
+                </pre>
+              </div>
+            </div>
           </div>
-          <pre className="m-8 text-rose-100">{code}</pre>
         </div>
       </div>
-    </div>
+      <div className="m-4">
+        <iframe
+          className="m4 max-h-screen w-full rounded-sm border-2"
+          ref={iframeRef}
+          title="code-execution"
+          srcDoc={html}
+          sandbox="allow-scripts"
+        />
+      </div>
+    </>
   );
 }
 

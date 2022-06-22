@@ -3,7 +3,7 @@ import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "../plugins/unpkgPathPlugin";
 import { fetchPlugin } from "../plugins/fetchPlugin";
 
-const useESBuild = () => {
+const useESBuild = (iframeRef: any) => {
   const [code, setCode] = useState("");
   const s = useRef<any>();
 
@@ -19,6 +19,13 @@ const useESBuild = () => {
       return null;
     }
 
+    if (input === "") {
+      setCode("");
+      return null;
+    }
+
+    console.log("=== bundling code ===");
+
     const result = await s.current.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -30,7 +37,10 @@ const useESBuild = () => {
       },
     });
 
-    setCode(result.outputFiles[0].text);
+    const output = result.outputFiles[0].text;
+
+    setCode(output);
+    iframeRef.current.contentWindow.postMessage(output, "*");
   };
 
   useEffect(() => {
