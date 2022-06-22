@@ -13,12 +13,19 @@ const CodeExecution: React.FC<ExecutionProps> = (props) => {
   <head>
     <style>
       html { background-color: white; }
-      pre { opacity: 0.5 }
+      body {
+        margin: 0;
+      }
+      html, body, div#root {
+        height: 100%;
+        width: 100%;
+      }
+      * { box-sizing: border-box; }
     </style>
   </head>
-  <body>
-    <pre>Code preview</pre>
-    <div id="root"></div>
+  <body style="">
+    <pre style="margin: 0; position: fixed; top: 0; left: 0; opacity: 0.2;">Code preview</pre>
+    <div id="root" style=""></div>
     <script>
       window.addEventListener("message", (event) => {
         try {

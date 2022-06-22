@@ -18,8 +18,7 @@ const App = () => {
       const h4 = document.createElement("h4");
       h4.innerHTML = "i am the rendered react component holy crap!!";
       h4.style.color = "hotpink";
-      h4.classList.add("animate__animated");
-      h4.classList.add("animate__bounceInUp");
+      h4.classList.add("animate__animated", "animate__bounceInUp");
       ref.current.appendChild(h4);
     }, 500);
   }, []);
@@ -30,9 +29,11 @@ const App = () => {
       style={{
         width: "100%",
         height: "500px",
+        maxHeight: "100%",
+        border: "1px solid hotpink",
         overflow: "hidden",
       }}
-    ></div>
+    />
   );
 };
 
