@@ -43,7 +43,7 @@ ReactDOM.render(<App />, document.querySelector("#root"));
 const CodeEntry = () => {
   const [input, setInput] = useState(DEFAULT_INPUT);
 
-  const { code, bundleCode } = useESBuild();
+  const { code, error, bundleCode } = useESBuild();
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -53,7 +53,7 @@ const CodeEntry = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [input, bundleCode]);
+  }, [input]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Resizable direction="y" className="mt-8 rounded-lg">
@@ -64,7 +64,7 @@ const CodeEntry = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <CodeExecution code={code} />
+        <CodeExecution code={code} bundlerError={error} />
       </div>
     </Resizable>
   );

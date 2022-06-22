@@ -4,7 +4,8 @@ import { unpkgPathPlugin } from "../plugins/unpkgPathPlugin";
 import { fetchPlugin } from "../plugins/fetchPlugin";
 
 const useESBuild = () => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState<string>("");
+  const [error, setError] = useState<any>(null);
   const s = useRef<any>();
 
   const startService = async () => {
@@ -24,27 +25,36 @@ const useESBuild = () => {
       return null;
     }
 
-    const result = await s.current.build({
-      entryPoints: ["index.js"],
-      bundle: true,
-      write: false,
-      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
-      define: {
-        "process.env.NODE_ENV": "'production'",
-        global: "window",
-      },
-    });
+    try {
+      const result = await s.current.build({
+        entryPoints: ["index.js"],
+        bundle: true,
+        write: false,
+        plugins: [unpkgPathPlugin(), fetchPlugin(input)],
+        define: {
+          "process.env.NODE_ENV": "'production'",
+          global: "window",
+        },
+      });
 
-    const output = result.outputFiles[0].text;
+      const output = result.outputFiles[0].text;
 
-    setCode(output);
+      setCode(output);
+      setError(null);
+    } catch (err) {
+      setCode("");
+      let msg = "";
+      if (err instanceof Error) msg = err.message;
+      else msg = String(err);
+      setError(msg);
+    }
   };
 
   useEffect(() => {
     startService();
   }, []);
 
-  return { code, bundleCode: bundler };
+  return { code, error, bundleCode: bundler };
 };
 
 export default useESBuild;
