@@ -53,7 +53,6 @@ const CodeExecution: React.FC<ExecutionProps> = (props) => {
   `;
 
   useEffect(() => {
-    console.log(code);
     if (iframeRef && iframeRef.current) {
       iframeRef.current.srcdoc = html;
       setTimeout(() => {

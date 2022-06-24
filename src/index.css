@@ -52,4 +52,85 @@ code {
   opacity: 0;
 }
 
-/*****************************/ ;
+/*****************************
+======== Markdown Editor Customizations ============
+*****************************/
+
+div.w-md-editor-bar {
+  height: 11px;
+  cursor: row-resize;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
+  background-color: #37414b;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  width: 100%;
+  position: relative;
+}
+
+div.w-md-editor .title {
+  line-height: unset;
+  font-size: unset;
+  font-weight: unset;
+  color: #d4d4d4 !important;
+}
+
+div.w-md-editor ul {
+  line-height: 1;
+}
+
+div.w-md-editor-bar svg {
+  display: none;
+}
+
+div.w-md-editor-bar svg {
+  display: none;
+}
+
+div.w-md-editor-bar em {
+  font-style: italic;
+}
+
+div.w-md-editor-bar .wmde-markdown hr {
+  border-top: 1px solid #dee5ed;
+}
+
+div.w-md-editor-bar .wmde-markdown ol {
+  list-style: decimal;
+}
+
+div.w-md-editor-show-live {
+  /* Hide menu bar buttons to prevent accidental delete */
+  z-index: 20;
+}
+
+div.w-md-editor-toolbar {
+  background-color: #37414b;
+  border-bottom: 1px solid gray;
+}
+
+div.w-md-editor-toolbar li button {
+  color: #d4d4d4;
+}
+
+div.w-md-editor-content {
+  background-color: #202123;
+}
+
+div.w-md-editor,
+div.w-md-editor .w-md-editor-text-pre {
+  color: #d4d4d4;
+}
+
+div.w-md-editor-text-pre .bold {
+  color: unset;
+}
+
+div.wmde-markdown-color {
+  color: white;
+}
+
+.token.list.punctuation {
+  background-color: unset;
+}
+
+/*****************************/
