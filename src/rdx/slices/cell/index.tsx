@@ -15,6 +15,7 @@ export interface Cell {
   content: string;
 }
 
+// state slice
 export const cellAdapter = createEntityAdapter<Cell>();
 
 const initialState = cellAdapter.getInitialState({
@@ -33,37 +34,34 @@ export const cellSlice = createSlice({
       state,
       action: PayloadAction<{ id: string; direction: CellMoveDirection }>
     ) {
-      const nextIds = [...state.ids];
+      const { ids } = state;
       const { id, direction } = action.payload;
       const MOVES: any = {
         up: 1,
         down: -1,
       };
-      const current = nextIds.indexOf(id);
-      nextIds.splice(current, 1);
-      nextIds.splice(current + MOVES[direction], 0, id);
-      return {
-        ...state,
-        ids: nextIds,
-      };
+      const current = ids.indexOf(id);
+      ids.splice(current, 1);
+      ids.splice(current + MOVES[direction], 0, id);
     },
     insertCellBefore(state, action) {
-      return state;
+      /* TODO */
     },
   },
 });
 
 // actions
-export const actions = cellSlice.actions;
+export const cellActions = cellSlice.actions;
+console.log(cellActions);
 export { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 // selectors
 export const selectIsLoading = (state: RootState) => state.cell.loading;
 export const selectCellError = (state: RootState) => state.cell.error;
-export const selectors = {
+export const cellSelectors = {
   selectIsLoading,
   selectCellError,
-  ...cellAdapter.getSelectors(),
+  ...cellAdapter.getSelectors((state: RootState) => state.cell),
 };
 
 // reducer

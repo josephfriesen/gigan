@@ -1,5 +1,4 @@
-// import CodeEntry from "./components/CodeEntry";
-import TextEditor from "./components/TextEditor";
+import CellList from "./components/CellList";
 import { Provider } from "react-redux";
 import { store } from "./rdx/store";
 
@@ -20,8 +19,7 @@ function App() {
             Write, transpile, bundle and execute jsx? Holy crap!
           </h4>
         </div>
-        <TextEditor />
-        {/* <CodeEntry /> */}
+        <CellList />
       </div>
     </Provider>
   );

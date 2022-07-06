@@ -11,6 +11,7 @@ export const store = configureStore({
   middleware: (gDM) => {
     return gDM({ thunk: false }).prepend(logger).concat(sagaMiddleware);
   },
+  devTools: { trace: true },
 });
 
 sagaMiddleware.run(rootSaga);

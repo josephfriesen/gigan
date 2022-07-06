@@ -40,7 +40,7 @@ const App = () => {
 ReactDOM.render(<App />, document.querySelector("#root"));
 `;
 
-const CodeEntry = () => {
+const CodeEntry: React.FC = () => {
   const [input, setInput] = useState(DEFAULT_INPUT);
 
   const { code, error, bundleCode } = useESBuild();
